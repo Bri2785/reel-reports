@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ShipIdLabel1.25x2.25" pageWidth="162" pageHeight="90" whenNoDataType="AllSectionsNoDetail" columnWidth="162" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="91264334-d33a-46a5-a1fc-b3ee07a613fc">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Barcode" hAlign="Center" vAlign="Middle" fontName="Arial"/>
+	<parameter name="REPORTDESCRIPTION" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Location Labels for Avery 8160 Labels"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="shipID" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT ship.`id`, ship.`num`, ship.`shipToName`, carrier.name
+from ship
+join carrier on ship.carrierid = carrier.id
+where ship.id = $P{shipID}]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="num" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="shipToName" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="PriceDecimal" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[System.getProperty("REPORT_DECIMAL_PRICE")]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="90">
+			<line>
+				<reportElement key="line-1" mode="Opaque" x="10" y="25" width="146" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="576804b7-ac29-4fac-bdd4-52fb829d12f0">
+					<printWhenExpression><![CDATA[]]></printWhenExpression>
+				</reportElement>
+				<graphicElement fill="Solid">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<componentElement>
+				<reportElement style="Barcode" x="4" y="56" width="152" height="20" uuid="3ea20a8b-9e40-482a-9e28-ca10b710c040"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128B" drawText="false" checksumRequired="false" barWidth="0">
+					<jr:codeExpression><![CDATA["SP_" + $F{id}.toString()]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="4" y="0" width="152" height="25" uuid="234d0dd4-5888-4644-8f7c-29f013b7433c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{num}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="25" width="152" height="31" uuid="e3430b1a-bceb-49bf-9249-b4c8eb7ea28a"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{shipToName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="4" y="76" width="152" height="14" uuid="599dbf04-bc5d-45f9-90e6-082ee44892f2"/>
+				<textElement textAlignment="Center" verticalAlignment="Top">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

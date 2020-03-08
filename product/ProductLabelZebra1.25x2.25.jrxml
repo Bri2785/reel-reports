@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ProductLabelZebra1.25x2.25" pageWidth="162" pageHeight="90" whenNoDataType="AllSectionsNoDetail" columnWidth="162" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="91264334-d33a-46a5-a1fc-b3ee07a613fc">
+	<property name="ireport.scriptlethandling" value="0"/>
+	<property name="ireport.encoding" value="UTF-8"/>
+	<property name="ireport.zoom" value="4.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="net.sf.jasperreports.engine.*"/>
+	<import value="java.util.*"/>
+	<import value="net.sf.jasperreports.engine.data.*"/>
+	<style name="Barcode" hAlign="Center" vAlign="Middle" fontName="Arial"/>
+	<parameter name="locationID" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="REPORTDESCRIPTION" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["Location Labels for Avery 8160 Labels"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="productNum" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ShowProductBarcode" class="java.lang.Boolean" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Boolean(true)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="productTree1" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["0"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="productTree2" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ShowImage" class="java.lang.Boolean" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Boolean(true)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ckShowProductTree" class="java.lang.String" isForPrompting="false">
+		<parameterDescription><![CDATA[1,0]]></parameterDescription>
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ShowPrice" class="java.lang.Boolean" isForPrompting="false">
+		<defaultValueExpression><![CDATA[new Boolean(true)]]></defaultValueExpression>
+	</parameter>
+	<parameter name="ProductNumberLike" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["%"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT product.id, product.num AS ProductNumber, product.description AS ProductDescription,
+    product.price AS Price, COALESCE(Product.sku, '') AS SKU, COALESCE(product.upc, '') AS UPC,
+    producttree.name AS producttreename, company.name AS company
+
+FROM product
+    LEFT JOIN producttotree ON product.id = producttotree.productid
+    LEFT JOIN producttree ON producttotree.producttreeid = producttree.id
+    JOIN company ON company.id = 1
+
+WHERE product.activeflag = 1
+  AND product.id != 0
+  AND UPPER(product.num) LIKE UPPER($P{productNum})
+  AND Product.num  LIKE $P{ProductNumberLike}
+
+ORDER BY (CASE WHEN $P!{ckShowProductTree} = 1 THEN producttree.name ELSE product.num END), product.num]]>
+	</queryString>
+	<field name="ID" class="java.lang.Integer"/>
+	<field name="PRODUCTNUMBER" class="java.lang.String"/>
+	<field name="PRODUCTDESCRIPTION" class="java.lang.String"/>
+	<field name="PRICE" class="java.lang.Double"/>
+	<field name="SKU" class="java.lang.String"/>
+	<field name="UPC" class="java.lang.String"/>
+	<field name="PRODUCTTREENAME" class="java.lang.String"/>
+	<field name="COMPANY" class="java.lang.String"/>
+	<variable name="PriceDecimal" class="java.lang.String" resetType="None">
+		<variableExpression><![CDATA[System.getProperty("REPORT_DECIMAL_PRICE")]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="90">
+			<line>
+				<reportElement key="line-1" mode="Opaque" x="10" y="25" width="146" height="1" forecolor="#000000" backcolor="#FFFFFF" uuid="576804b7-ac29-4fac-bdd4-52fb829d12f0">
+					<printWhenExpression><![CDATA[]]></printWhenExpression>
+				</reportElement>
+				<graphicElement fill="Solid">
+					<pen lineWidth="1.0" lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<componentElement>
+				<reportElement style="Barcode" x="10" y="72" width="146" height="18" uuid="3ea20a8b-9e40-482a-9e28-ca10b710c040"/>
+				<jr:barbecue xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd" type="Code128B" drawText="false" checksumRequired="false" barWidth="0">
+					<jr:codeExpression><![CDATA[$F{PRODUCTNUMBER}.toString()]]></jr:codeExpression>
+				</jr:barbecue>
+			</componentElement>
+			<textField>
+				<reportElement x="10" y="0" width="146" height="25" uuid="234d0dd4-5888-4644-8f7c-29f013b7433c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCTNUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="57" width="146" height="12" uuid="ac4083df-e596-4938-b736-a7626a1b2fbe">
+					<printWhenExpression><![CDATA[$P{ShowPrice}]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRICE}]]></textFieldExpression>
+				<patternExpression><![CDATA[$V{PriceDecimal}]]></patternExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="26" width="146" height="30" uuid="e3430b1a-bceb-49bf-9249-b4c8eb7ea28a"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{PRODUCTDESCRIPTION}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
