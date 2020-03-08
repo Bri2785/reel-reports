@@ -4,7 +4,7 @@ These report are designed around the parameters that Reel provides in it's print
 Shipment
 Used in Shipment List and Shipment Details Screens with the manual print button. Also used in the Pack and Ship auto events
 ```
-SqlField = "Ship.Id", iReportParameter = "shipId"
+SqlField = "Ship.Id", iReportParameter = "shipID"
 SqlField = "Ship.Num", iReportParameter = "shipNum"
 ```
 
