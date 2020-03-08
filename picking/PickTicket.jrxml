@@ -46,7 +46,7 @@
 	<parameter name="dateRangeNone" class="java.lang.String" isForPrompting="false"/>
 	<parameter name="cbSecondarySortBy" class="java.lang.String" isForPrompting="false">
 		<parameterDescription><![CDATA[1,Line Item,part.num,Part]]></parameterDescription>
-		<defaultValueExpression><![CDATA["Line Item"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["1"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="cbShowBarcodeAs" class="java.lang.String" isForPrompting="false">
 		<parameterDescription><![CDATA[Order,Order Num,Pick,Pick Num]]></parameterDescription>
@@ -70,7 +70,7 @@
 	</parameter>
 	<parameter name="cbPrimarySortBy" class="java.lang.String" isForPrompting="false">
 		<parameterDescription><![CDATA[mainlocation.sortorder,Location Sort Order,mainlocation.name,Location Name]]></parameterDescription>
-		<defaultValueExpression><![CDATA["Location Name"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["mainlocation.name"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="ShowKitHeaders" class="java.lang.Boolean" isForPrompting="false">
 		<defaultValueExpression><![CDATA[true]]></defaultValueExpression>
